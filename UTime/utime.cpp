@@ -1,7 +1,14 @@
 #include "utime.h"
 #include <cstdio>
 #include <ctime>
+#include <chrono>
 
+long long get_current_time_ms()
+{
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+}
 
 void utime()
 {
@@ -13,7 +20,8 @@ void utime()
     unsigned long long time_now = now_ull;
     unsigned long long inst_millis;          // millis offset to account for setup() time, ms
     unsigned long long inst_time = time_now;            // UTC Zulu at instantiation, s
-    unsigned long long start = System.millis();
+    unsigned long long start;
+    long long milliseconds = get_current_time_ms();
     printf("     %s\n", asctime(gmt));
     printf("currentTime %ld\n", currentTime);
     printf("now_ul      %lu\n", now_ul);
@@ -21,4 +29,5 @@ void utime()
     printf("time_now    %llu\n", time_now);
     printf("inst_millis %llu\n", inst_millis);
     printf("inst_time   %llu\n", inst_time);
+    printf("milliseconds%lld\n", milliseconds);
 }
