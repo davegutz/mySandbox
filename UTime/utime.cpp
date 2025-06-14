@@ -9,7 +9,7 @@ long long get_current_time_ms()
 {
     auto now = std::chrono::system_clock::now();
     auto duration = now.time_since_epoch();
-    return std::chrono::duration_cast<std::chrono::inst_millis>(duration).count();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 }
 
 void utime()
