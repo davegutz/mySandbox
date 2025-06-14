@@ -16,30 +16,23 @@ void utime()
 {
     // Instantiation
     long long inst_millis_ll = get_current_time_ms();  // Instantiation time, ms
-    time_t start_time_ll = time(nullptr);  // Get current time
+    time_t readable_time_ull = time(nullptr);  // Get current time
     unsigned long inst_time_ul = (unsigned long) (time(nullptr)); // Instantiation time, s
     unsigned long long sample_time_ib_ll = 0ULL;  // Exact moment of selected Ib sample, ms
-    unsigned long long start_ull =  (unsigned long long) inst_millis_ll;
     unsigned long long now_ull = 0ULL;  // Time at sample, ms
     
     for ( int i=0; i<3; i++)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        readable_time_ull = time(nullptr);  // Get current time
+        struct tm *gmt_readable = gmtime(&readable_time_ull);
+
         sample_time_ib_ll = get_current_time_ms();
-        start_time_ll = time(nullptr);  // Get current time
         now_ull = sample_time_ib_ll - inst_millis_ll + inst_time_ul*1000;
-        struct tm *gmt = gmtime(&start_time_ll);
-        unsigned long long time_now_ull = now_ull;
-        unsigned long long inst_millis_ull = start_ull;     // millis offset to account for setup() time, ms
-        unsigned long long start_time_ull = time_now_ull;    // UTC Zulu at instantiation, s
-        printf("%s\n", asctime(gmt));
-        printf("start_time_ll    %lld     s\n", start_time_ll);
+
+        printf("\n\n%s\n", asctime(gmt_readable));
         printf("inst_millis_ll  %lld ms\n", inst_millis_ll);
-        printf("start_ull       %llu ms\n", start_ull);
         printf("now_ull         %llu     s\n", now_ull);
-        printf("time_now_ull    %llu     s\n", time_now_ull);
-        printf("inst_millis_ull %llu ms\n", inst_millis_ull);
-        printf("start_time_ull   %llu     s\n\n\n", start_time_ull);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
 }
